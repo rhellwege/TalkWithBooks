@@ -1,36 +1,23 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { createSignal, Component } from "solid-js";
+import solidLogo from "./assets/solid.svg";
 import viteLogo from "/vite.svg";
-import "./App.css";
-import { Button } from "@/components/ui/button";
+import { Tabs, Tab } from "./Tabs";
 
-function App() {
-  const [count, setCount] = useState(0);
+export const App: Component = () => {
+  const [count, setCount] = createSignal(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div class="bg-zinc-50 block">
+      <p class="text-xl">{count()}</p>
+      <button class="bg-purple-200" onClick={() => setCount(count() + 1)}>
+        Increase
+      </button>
+      <Tabs>
+        <Tab title="a">CONETNT A</Tab>
+        <Tab title="b"> CONTENT B</Tab>
+      </Tabs>
+    </div>
   );
-}
+};
 
 export default App;
