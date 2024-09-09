@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^0.8.2",
     "solid-js": "^1.8.20"
   },
   "devDependencies": {

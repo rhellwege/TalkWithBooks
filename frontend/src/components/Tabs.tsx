@@ -13,7 +13,7 @@ export const Tabs: Component<TabsProps> = (props) => {
 
   return (
     <div>
-      <ul class="p-4">
+      <ul class="p-4 lg">
         <For each={evaluatedTabs()}>
           {({ title }, index) => (
             <li>
