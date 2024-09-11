@@ -1,4 +1,5 @@
 import { Show, createSignal, JSXElement, Component } from "solid-js";
+import { clickOutside } from "../directives/click-outside";
 
 interface DropdownProps {
   description: string;
@@ -9,7 +10,7 @@ export const Dropdown: Component<DropdownProps> = (props) => {
   const [revealed, setRevealed] = createSignal(false);
 
   return (
-    <div class="container">
+    <div class="container" use:clickOutside={() => setRevealed(false)}>
       <button onClick={() => setRevealed(!revealed())}>
         <h3>{props.description}</h3>
       </button>

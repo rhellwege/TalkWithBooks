@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
+    "@solidjs/router": "^0.14.3",
+    "lucide-solid": "^0.439.0",
     "solid-js": "^1.8.20"
   },
   "devDependencies": {

@@ -12,16 +12,15 @@ export const Tabs: Component<TabsProps> = (props) => {
   const evaluatedTabs = () => tabs.toArray() as unknown as TabProps[]; // this is where the magic happens this is a derived signal
 
   return (
-    <div>
-      <ul class="p-4 lg">
+    <div class="container">
+      <ul class="w-full p-4 flex flex-row gap-4">
         <For each={evaluatedTabs()}>
           {({ title }, index) => (
-            <li>
+            <li class="w-full ">
               <button
                 class={
-                  index() === activeTab()
-                    ? "bg-red-300 font-bold"
-                    : "bg-blue-200"
+                  "hover:opacity-50 transition duration-300 bg-slate-100 p-3 w-full border-2" +
+                  (index() === activeTab() ? " font-bold bg-slate-200" : " ")
                 }
                 onClick={() => setActiveTab(index())}
               >
