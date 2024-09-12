@@ -11,7 +11,7 @@ export const Navbar: Component = ({}) => {
         <For each={["Home", "Chat", "Library"]}>
           {(route) => (
             <li class="bg-zinc-200 hover:opacity-50">
-              <a href={"/" + route}>{route}</a>
+              <a href={"/" + route.toLowerCase()}>{route}</a>
             </li>
           )}
         </For>
