@@ -1,17 +1,14 @@
 import { For, Component } from "solid-js";
+import { A } from "@solidjs/router";
 
-interface NavbarProps {
-  activeRoute: string;
-}
-
-export const Navbar: Component = ({}) => {
+export const Navbar: Component = () => {
   return (
-    <nav class="sticky flex flex-row justify-center gap-4">
+    <nav class="navbar">
       <ul>
         <For each={["Home", "Chat", "Library"]}>
           {(route) => (
-            <li class="bg-zinc-200 hover:opacity-50">
-              <a href={"/" + route.toLowerCase()}>{route}</a>
+            <li class="btn">
+              <A href={"/" + route.toLowerCase()}>{route}</A>
             </li>
           )}
         </For>

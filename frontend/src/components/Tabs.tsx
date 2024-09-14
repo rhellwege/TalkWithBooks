@@ -12,25 +12,28 @@ export const Tabs: Component<TabsProps> = (props) => {
   const evaluatedTabs = () => tabs.toArray() as unknown as TabProps[]; // this is where the magic happens this is a derived signal
 
   return (
-    <div class="container">
-      <ul class="w-full p-4 flex flex-row gap-4">
+    <div class="">
+      <ul role="tablist" class="tabs tabs-boxed">
         <For each={evaluatedTabs()}>
           {({ title }, index) => (
-            <li class="w-full ">
-              <button
+            <>
+              <li
+                role="tab"
                 class={
-                  "hover:opacity-50 transition duration-300 bg-slate-100 p-3 w-full border-2" +
-                  (index() === activeTab() ? " font-bold bg-slate-200" : " ")
+                  "tab tab-boxed " +
+                  (index() === activeTab() ? "tab-active" : " ")
                 }
                 onClick={() => setActiveTab(index())}
               >
                 {title}
-              </button>
-            </li>
+              </li>
+              <div role="tabpanel" class="tab-content p-5 text-lg">
+                {evaluatedTabs()[index()].children}
+              </div>
+            </>
           )}
         </For>
       </ul>
-      <div class="p-5 text-lg">{evaluatedTabs()[activeTab()].children}</div>
     </div>
   );
 };
