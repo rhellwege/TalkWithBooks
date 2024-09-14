@@ -7,11 +7,11 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
 import "./index.css";
-import App from "./App";
+import Layout from "./Layout";
 
 render(
   () => (
-    <Router root={App}>
+    <Router root={Layout}>
       <Route path="/library" component={Library} />
       <Route path="/chat" component={Chat} />
       <Route path="/" component={Home} />

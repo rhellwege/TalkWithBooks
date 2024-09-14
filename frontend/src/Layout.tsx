@@ -2,18 +2,18 @@ import { createSignal, Component, JSXElement } from "solid-js";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 
-interface AppProps {
+interface LayoutProps {
   children: JSXElement;
 }
 
-export const App: Component<AppProps> = (props) => {
+export const Layout: Component<LayoutProps> = (props) => {
   return (
-    <>
+    <div class="flex flex-col h-screen">
       <Navbar />
-      <div>{props.children}</div>
+      <main class="mb-auto">{props.children}</main>
       <Footer />
-    </>
+    </div>
   );
 };
 
-export default App;
+export default Layout;
