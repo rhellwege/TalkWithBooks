@@ -7,15 +7,21 @@ const Home: Component = (props) => {
   return (
     <div class="hero bg-base-200 min-h-screen">
       <div class="hero-content text-center">
-        <div class="max-w-md bg-base-100">
+        <div class="max-w-md">
           <h1 class="text-5xl font-bold">Talk With Books</h1>
           <p class="py-6">
             Build a library of your notes, textbooks, presentations or any other
             text based content to easily search through it and ask questions.
             Get started by logging in and start uploading files!
           </p>
-          <button class="btn btn-primary">Get Started</button>
+          <div class="join">
+            <button class="join-item btn btn-primary">Get Started</button>
+            <button class="joint-item btn btn-info">Learn More</button>
+          </div>
           <div class="skeleton"></div>
+          <div class="radial-progress" style="--value:50;" role="progressbar">
+            0/400mb
+          </div>
         </div>
       </div>
     </div>
