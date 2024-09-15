@@ -1,4 +1,6 @@
 import { Component } from "solid-js";
+import { PdfViewer } from "../components/PdfViewer";
+import { ChatBox } from "../components/Chatbox";
 
 export const Home: Component = (props) => {
   return (
@@ -16,6 +18,8 @@ export const Home: Component = (props) => {
           Tab 3
         </li>
       </ul>
+      <PdfViewer src="/home/ry/fall_2024/cpsc315_ethics/ethicsjournal.pdf" />
+      <ChatBox />
     </>
   );
 };

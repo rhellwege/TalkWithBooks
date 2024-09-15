@@ -5,6 +5,7 @@ import {
   useContext,
   createSignal,
   Component,
+  JSXElement,
 } from "solid-js";
 
 interface ContextProps {
