@@ -25,7 +25,9 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
     }
   };
   createEffect(() => {
-    renderPage(pageNum());
+    if (pdf()) {
+      renderPage(pageNum());
+    }
   });
   onMount(async () => {
     const pdfDocument = await pdfjsLib.getDocument(props.src).promise;
