@@ -18,7 +18,7 @@ export const Home: Component = (props) => {
           Tab 3
         </li>
       </ul>
-      <PdfViewer src="/home/ry/fall_2024/cpsc315_ethics/ethicsjournal.pdf" />
+      <PdfViewer src="../compressed.pdf" />
       <ChatBox />
     </>
   );
