@@ -1,12 +1,16 @@
 import {
   Component,
+  Show,
   createSignal,
   createEffect,
   createResource,
   onMount,
+  createMemo,
   onCleanup,
 } from "solid-js";
 import * as pdfjsLib from "pdfjs-dist";
+import { Pagination } from "./Pagination";
+import "../../node_modules/pdfjs-dist/web/pdf_viewer.css";
 interface PdfViewerProps {
   src: string;
 }
@@ -18,12 +22,15 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
   let canvas, textContainer;
   const [pageNum, setPageNum] = createSignal<number>(1);
   const [pdf, setPdf] = createSignal(null);
-  const totalPages = () => pdf().numPages;
+  const totalPages = () => (pdf() ? pdf().numPages : 0);
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage < totalPages()) {
       setPageNum(newPage);
     }
   };
+
+  // every time pageNum changes, render the page and text
+  // TODO: make this memo
   createEffect(() => {
     if (pdf()) {
       renderPage(pageNum());
@@ -34,42 +41,59 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
     setPdf(pdfDocument);
   });
 
-  const renderPage = async (num) => {
-    // TODO: use createMemo for each page so we can cache?
-    const page = await pdf().getPage(num);
-    const viewport = page.getViewport({ scale: 1 });
-    const cv = canvas.getContext("2d");
-    cv.canvas.width = viewport.width;
-    cv.canvas.height = viewport.height;
+  const renderPage = async (num: number) => {
+    if (pdf()) {
+      console.log("redering!!!");
+      // TODO: use createMemo for each page so we can cache?
+      const page = await pdf().getPage(num);
+      const viewport = page.getViewport({ scale: 1 });
+      const cv = canvas.getContext("2d");
+      cv.canvas.width = viewport.width;
+      cv.canvas.height = viewport.height;
 
-    const renderContext = {
-      canvasContext: cv,
-      viewport: viewport,
-    };
-    await page.render(renderContext).promise;
+      const renderContext = {
+        canvasContext: cv,
+        viewport: viewport,
+      };
+      await page.render(renderContext).promise;
+      // text layer
+      const textContent = await page.getTextContent();
+      console.log(textContent);
+      const textLayer = new pdfjsLib.TextLayer({
+        textContentSource: textContent,
+        viewport: viewport,
+        container: textContainer,
+      });
+      await textLayer.render();
+    }
   };
 
   onCleanup(() => {
     // Cleanup if necessary
   });
   return (
-    <div>
-      <canvas class="shadow rounded border-primary" ref={canvas}></canvas>
-      <div ref={textContainer}></div>
-      <div class="join">
-        <button
-          onClick={() => handlePageChange(pageNum() - 1)}
-          class="join-item btn"
-        >
-          Previous
-        </button>
-        <button
-          onClick={() => handlePageChange(pageNum() + 1)}
-          class="join-item btn"
-        >
-          Next
-        </button>
+    <Show when={pdf()} fallback={<h1>Loading...</h1>}>
+      <div class="flex justify-center flex-col">
+        <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
+        <div ref={textContainer} class="textLayer"></div>
+        <div class="join">
+          <button
+            onClick={() => handlePageChange(pageNum() - 1)}
+            class={"join-item btn " + (pageNum() <= 1 ? "btn-disabled" : "")}
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => handlePageChange(pageNum() + 1)}
+            class={
+              "join-item btn " +
+              (pageNum() >= totalPages() - 1 ? "btn-disabled" : "")
+            }
+          >
+            Next
+          </button>
+        </div>
       </div>
-    </div>
+    </Show>
   );
 };
