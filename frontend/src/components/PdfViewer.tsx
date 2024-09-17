@@ -47,12 +47,12 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       // TODO: use createMemo for each page so we can cache?
       const page = await pdf().getPage(num);
       const viewport = page.getViewport({ scale: 1 });
-      const cv = canvas.getContext("2d");
-      cv.canvas.width = viewport.width;
-      cv.canvas.height = viewport.height;
+      const ctx = canvas.getContext("2d");
+      ctx.canvas.width = viewport.width;
+      ctx.canvas.height = viewport.height;
 
       const renderContext = {
-        canvasContext: cv,
+        canvasContext: ctx,
         viewport: viewport,
       };
       await page.render(renderContext).promise;
@@ -73,9 +73,11 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
   });
   return (
     <Show when={pdf()} fallback={<h1>Loading...</h1>}>
-      <div class="flex justify-center flex-col">
-        <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
-        <div ref={textContainer} class="textLayer"></div>
+      <div class="">
+        <div class="pdfViewer relative">
+          <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
+          <div ref={textContainer} class="textLayer"></div>
+        </div>
         <div class="join">
           <button
             onClick={() => handlePageChange(pageNum() - 1)}
