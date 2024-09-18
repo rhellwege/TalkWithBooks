@@ -1,11 +1,11 @@
+// TODO: implement highlight based on offset and length (or string matching?)
+// TODO: export page number and other state to parent
 import {
   Component,
   Show,
   createSignal,
   createEffect,
-  createResource,
   onMount,
-  createMemo,
   onCleanup,
 } from "solid-js";
 import * as pdfjsLib from "pdfjs-dist";
