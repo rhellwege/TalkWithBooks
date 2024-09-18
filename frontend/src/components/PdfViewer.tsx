@@ -29,11 +29,6 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
     null as unknown as PDFDocumentProxy,
   );
   const totalPages = () => (pdf() ? pdf().numPages : 0);
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage < totalPages()) {
-      setPageNum(newPage);
-    }
-  };
 
   // every time pageNum changes, render the page and text
   // TODO: make this memo
@@ -88,25 +83,13 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       <div class="">
         <div class="pdfViewer relative">
           <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
-          <div ref={textContainer} class="textLayer highlight"></div>
+          <div ref={textContainer} class="textLayer"></div>
         </div>
-        <div class="join">
-          <button
-            onClick={() => handlePageChange(pageNum() - 1)}
-            class={"join-item btn " + (pageNum() <= 1 ? "btn-disabled" : "")}
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => handlePageChange(pageNum() + 1)}
-            class={
-              "join-item btn " +
-              (pageNum() >= totalPages() - 1 ? "btn-disabled" : "")
-            }
-          >
-            Next
-          </button>
-        </div>
+        <Pagination
+          currentPage={pageNum}
+          setPage={setPageNum}
+          maxPages={totalPages}
+        />
       </div>
     </Show>
   );
