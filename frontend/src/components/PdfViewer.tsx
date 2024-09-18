@@ -11,17 +11,23 @@ import {
 import * as pdfjsLib from "pdfjs-dist";
 import { Pagination } from "./Pagination";
 import "../../node_modules/pdfjs-dist/web/pdf_viewer.css";
+import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 interface PdfViewerProps {
   src: string;
 }
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   "../../node_modules/pdfjs-dist/build/pdf.worker.mjs";
+const CMAP_URL = "../../node_modules/pdfjs-dist/cmaps/";
+const CMAP_PACKED = true;
+const XFA = true;
 
 export const PdfViewer: Component<PdfViewerProps> = (props) => {
-  let canvas, textContainer;
+  let canvas: HTMLCanvasElement, textContainer: HTMLDivElement;
   const [pageNum, setPageNum] = createSignal<number>(1);
-  const [pdf, setPdf] = createSignal(null);
+  const [pdf, setPdf] = createSignal<PDFDocumentProxy>(
+    null as unknown as PDFDocumentProxy,
+  );
   const totalPages = () => (pdf() ? pdf().numPages : 0);
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage < totalPages()) {
@@ -37,19 +43,24 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
     }
   });
   onMount(async () => {
-    const pdfDocument = await pdfjsLib.getDocument(props.src).promise;
+    const pdfDocument: PDFDocumentProxy = await pdfjsLib.getDocument({
+      cMapPacked: CMAP_PACKED,
+      cMapUrl: CMAP_URL,
+      enableXfa: XFA,
+      url: props.src,
+    }).promise;
     setPdf(pdfDocument);
   });
 
   const renderPage = async (num: number) => {
     if (pdf()) {
-      console.log("redering!!!");
+      console.log("Rendering page...");
       // TODO: use createMemo for each page so we can cache?
       const page = await pdf().getPage(num);
       const viewport = page.getViewport({ scale: 1 });
       const ctx = canvas.getContext("2d");
-      ctx.canvas.width = viewport.width;
-      ctx.canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
 
       const renderContext = {
         canvasContext: ctx,
@@ -58,12 +69,13 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       await page.render(renderContext).promise;
       // text layer
       const textContent = await page.getTextContent();
-      console.log(textContent);
       const textLayer = new pdfjsLib.TextLayer({
         textContentSource: textContent,
         viewport: viewport,
         container: textContainer,
       });
+      // clear the previous text
+      textContainer.innerHTML = "";
       await textLayer.render();
     }
   };
@@ -76,7 +88,7 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       <div class="">
         <div class="pdfViewer relative">
           <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
-          <div ref={textContainer} class="textLayer"></div>
+          <div ref={textContainer} class="textLayer highlight"></div>
         </div>
         <div class="join">
           <button
