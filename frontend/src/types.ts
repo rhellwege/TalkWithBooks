@@ -12,4 +12,5 @@ export interface DocumentLibrary {
   name: string; // Name of the PDF file
   docs: Array<PdfDocument>; // list of PdfDocuments
   dateAdded: Date; // Date created
+  description?: string; // description of the library for the user
 }
