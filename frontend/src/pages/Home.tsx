@@ -18,10 +18,6 @@ const Home: Component = (props) => {
             <button class="join-item btn btn-primary">Get Started</button>
             <button class="joint-item btn btn-info">Learn More</button>
           </div>
-          <div class="skeleton"></div>
-          <div class="radial-progress" style="--value:50;" role="progressbar">
-            0/400mb
-          </div>
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ const CMAP_PACKED = true;
 const XFA = true;
 
 export const PdfViewer: Component<PdfViewerProps> = (props) => {
-  let canvas: HTMLCanvasElement, textContainer: HTMLDivElement;
+  let canvas!: HTMLCanvasElement, textContainer!: HTMLDivElement;
   const [pageNum, setPageNum] = createSignal<number>(1);
   const [pdf, setPdf] = createSignal<PDFDocumentProxy>(
     null as unknown as PDFDocumentProxy,

@@ -17,7 +17,13 @@ interface ContextProps {
 
 const GlobalContext = createContext<ContextProps>();
 
-export const GlobalContextProvider: Component = (props) => {
+interface GlobalContextProviderProps {
+  children: JSXElement;
+}
+
+export const GlobalContextProvider: Component<GlobalContextProviderProps> = (
+  props,
+) => {
   const [count, setCount] = createSignal<number>(0);
   const [pageName, setPageName] = createSignal<string>("");
 

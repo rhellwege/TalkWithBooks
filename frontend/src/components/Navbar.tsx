@@ -54,8 +54,8 @@ export const Navbar: Component = () => {
             <li>
               <a>Settings</a>
             </li>
-            <li>
-              <a>Logout</a>
+            <li class="text-warning">
+              <a>Sign Out</a>
             </li>
           </ul>
         </div>

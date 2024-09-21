@@ -26,7 +26,7 @@ const Home: Component = (props) => {
           role="tab"
           class="tab"
           aria-label="Tab 2"
-          checked="checked"
+          checked={true}
         />
         <div
           role="tabpanel"
