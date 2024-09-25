@@ -1,5 +1,6 @@
 import { For, Component, onMount } from "solid-js";
 import { A } from "@solidjs/router";
+import * as jdenticon from "jdenticon";
 
 interface NavbarProps {}
 export const Navbar: Component = () => {

@@ -10,7 +10,8 @@ import (
 type Handler struct{}
 
 type Config struct {
-	R *gin.Engine // Router
+	R  *gin.Engine // Router
+	US *model.UserService
 }
 
 // Handler builder

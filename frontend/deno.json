@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "jdenticon": "npm:jdenticon@^3.3.0"
+  }
+}
