@@ -25,7 +25,7 @@ services:
       - "8080" # go binary listens to 8080
     labels:
       - "traefik.enable=true" # visible to traefik
-      - "traefik.http.routers.api.rule=Host(`malcorp.test`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.api.rule=Host(`twb.test`) && PathPrefix(`/api`)"
     environment:
       - ENV=dev # in development
     volumes:
