@@ -4,7 +4,10 @@ import * as jdenticon from "jdenticon";
 
 interface NavbarProps {}
 export const Navbar: Component = () => {
-  onMount(() => {});
+  let profileIcon!: SVGSVGElement;
+  onMount(() => {
+    jdenticon.update(profileIcon, "test"); // change test to user id for a unique profile picture
+  });
   return (
     <nav class="navbar bg-base-100">
       <div class="flex-1">
@@ -36,10 +39,7 @@ export const Navbar: Component = () => {
             class="btn btn-ghost btn-circle avatar"
           >
             <div class="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
+              <svg ref={profileIcon}></svg>
             </div>
           </div>
           <ul
