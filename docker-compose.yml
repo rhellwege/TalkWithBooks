@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  reverse-proxy:
+    # official traefik image
+    image: traefik:v3.1
+    # enable the webui and listen to docker events
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--providers.docker.exposedByDefault=false"
+    ports:
+      # HTTP (host:container)
+      - "80:80"
+      # webui set by --api.insecure=true
+      - "8080:8080"
+    volumes:
+      # give permission to listen to docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+  api:
+    build:
+      context: ./api
+      target: builder
+    image: api
+    expose:
+      - "8080" # go binary listens to 8080
+    labels:
+      - "traefik.enable=true" # visible to traefik
+      - "traefik.http.routers.api.rule=Host(`malcorp.test`) && PathPrefix(`/api`)"
+    environment:
+      - ENV=dev # in development
+    volumes:
+      - ./api:/go/src/app
+    command: reflex -r "\.go$$" -s -- sh -c "go run ./" # any time a go file changes run go run .

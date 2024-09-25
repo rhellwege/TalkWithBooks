@@ -13,4 +13,6 @@ export interface DocumentLibrary {
   docs: Array<PdfDocument>; // list of PdfDocuments
   dateAdded: Date; // Date created
   description?: string; // description of the library for the user
+  vectorModel: string; // the model used to encode the index
+  dateEncoded: Date; // the time the model was used to create the vector database (can be redone with a different model)
 }
