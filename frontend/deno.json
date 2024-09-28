@@ -1,5 +1,7 @@
 {
   "imports": {
-    "jdenticon": "npm:jdenticon@^3.3.0"
+    "jdenticon": "npm:jdenticon@^3.3.0",
+    "tailwind": "npm:tailwind@^4.0.0",
+    "tailwindcss": "npm:tailwindcss@^3.4.13"
   }
 }

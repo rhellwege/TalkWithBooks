@@ -1,4 +1,4 @@
-import { For, Component, onMount, Accessor, Setter } from "solid-js";
+import { Component, Accessor, Setter } from "solid-js";
 
 interface PaginationProps {
   currentPage: Accessor<number>;
@@ -30,7 +30,8 @@ export const Pagination: Component<PaginationProps> = (props) => {
         onInput={(ev) => handlePageChange(parseInt(ev.target.value, 10))}
         onKeyPress={(ev) => {
           if (ev.key === "Enter") {
-            handlePageChange(parseInt(ev.target.value, 10));
+            const target = ev.target as HTMLInputElement;
+            handlePageChange(parseInt(target.value, 10));
           }
         }}
         class="input input-bordered w-16 text-center"

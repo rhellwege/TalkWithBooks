@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 
-const Home: Component = (props) => {
+const Library: Component = () => {
   return (
     <>
       <h1>Talk With Books</h1>
@@ -53,4 +53,4 @@ const Home: Component = (props) => {
   );
 };
 
-export default Home;
+export default Library;

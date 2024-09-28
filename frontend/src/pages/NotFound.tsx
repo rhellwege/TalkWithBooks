@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 
-const NotFound: Component = (props) => {
+const NotFound: Component = () => {
   return (
     <div class="hero">
       <div class="hero-content">

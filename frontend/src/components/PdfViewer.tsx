@@ -7,11 +7,15 @@ import {
   createEffect,
   onMount,
   onCleanup,
+  splitProps,
 } from "solid-js";
 import * as pdfjsLib from "pdfjs-dist";
 import { Pagination } from "./Pagination";
 import "../../node_modules/pdfjs-dist/web/pdf_viewer.css";
-import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
+import {
+  PDFDocumentProxy,
+  RenderParameters,
+} from "pdfjs-dist/types/src/display/api";
 interface PdfViewerProps {
   src: string;
 }
@@ -24,6 +28,7 @@ const XFA = true;
 
 export const PdfViewer: Component<PdfViewerProps> = (props) => {
   let canvas!: HTMLCanvasElement, textContainer!: HTMLDivElement;
+  const [localProps, otherProps] = splitProps(props, ["src"]);
   const [pageNum, setPageNum] = createSignal<number>(1);
   const [pdf, setPdf] = createSignal<PDFDocumentProxy>(
     null as unknown as PDFDocumentProxy,
@@ -42,7 +47,7 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       cMapPacked: CMAP_PACKED,
       cMapUrl: CMAP_URL,
       enableXfa: XFA,
-      url: props.src,
+      url: localProps.src,
     }).promise;
     setPdf(pdfDocument);
   });
@@ -53,11 +58,11 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       // TODO: use createMemo for each page so we can cache?
       const page = await pdf().getPage(num);
       const viewport = page.getViewport({ scale: 1 });
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d")!;
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
-      const renderContext = {
+      const renderContext: RenderParameters = {
         canvasContext: ctx,
         viewport: viewport,
       };
@@ -80,7 +85,7 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
   });
   return (
     <Show when={pdf()} fallback={<h1>Loading...</h1>}>
-      <div class="">
+      <div {...otherProps} class="">
         <div class="pdfViewer relative">
           <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
           <div ref={textContainer} class="textLayer"></div>

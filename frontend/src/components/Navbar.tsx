@@ -1,12 +1,12 @@
-import { For, Component, onMount } from "solid-js";
+import { Component, onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import * as jdenticon from "jdenticon";
 
-interface NavbarProps {}
 export const Navbar: Component = () => {
   let profileIcon!: SVGSVGElement;
   onMount(() => {
-    jdenticon.update(profileIcon, "test"); // change test to user id for a unique profile picture
+    // todo: fetch api
+    jdenticon.update(profileIcon, "test"); // change test to user id or token for a unique profile picture
   });
   return (
     <nav class="navbar bg-base-100">
@@ -15,13 +15,15 @@ export const Navbar: Component = () => {
       </div>
       <div class="flex-auto  justify-center gap-2">
         <ul>
-          <For each={["Home", "Chat", "Library"]}>
-            {(route) => (
-              <li class="btn btn-link ">
-                <A href={"/" + route.toLowerCase()}>{route}</A>
-              </li>
-            )}
-          </For>
+          <li class="btn btn-link ">
+            <A href="/">Home</A>
+          </li>
+          <li class="btn btn-link ">
+            <A href="/chat">Chat</A>
+          </li>
+          <li class="btn btn-link ">
+            <A href="/library">Library</A>
+          </li>
         </ul>
       </div>
       <div class="flex-none gap-2">
@@ -62,16 +64,5 @@ export const Navbar: Component = () => {
         </div>
       </div>
     </nav>
-    // <nav class="sticky navbar">
-    //   <ul>
-    //     <For each={["Home", "Chat", "Library"]}>
-    //       {(route) => (
-    //         <li class="btn">
-    //           <A href={"/" + route.toLowerCase()}>{route}</A>
-    //         </li>
-    //       )}
-    //     </For>
-    //   </ul>
-    // </nav>
   );
 };

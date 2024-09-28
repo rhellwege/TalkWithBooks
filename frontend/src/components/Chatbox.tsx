@@ -1,5 +1,4 @@
-import { useGlobalContext } from "../GlobalContext/store";
-import { Component, createSignal } from "solid-js";
+import { Component } from "solid-js";
 
 export const ChatBox: Component = () => {
   return (

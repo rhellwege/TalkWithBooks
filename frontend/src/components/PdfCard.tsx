@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import { Component } from "solid-js";
 import { PdfDocument } from "../types";
 
 interface PdfCardProps {
@@ -6,7 +6,7 @@ interface PdfCardProps {
 }
 
 export const PdfCard: Component<PdfCardProps> = (props) => {
-  const [expanded, setExpanded] = createSignal(false);
+  //const [expanded, setExpanded] = createSignal(false);
   const handleDelete = () => {
     //TODO
   };
