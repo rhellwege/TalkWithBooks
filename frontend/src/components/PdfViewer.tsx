@@ -21,8 +21,8 @@ interface PdfViewerProps {
 }
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "../../node_modules/pdfjs-dist/build/pdf.worker.mjs";
-const CMAP_URL = "../../node_modules/pdfjs-dist/cmaps/";
+  new URL("../../node_modules/pdfjs-dist/build/pdf.worker.mjs", import.meta.url).href; // use new url to make sure vite includes it
+const CMAP_URL = new URL("../../node_modules/pdfjs-dist/cmaps/", import.meta.url).href;
 const CMAP_PACKED = true;
 const XFA = true;
 
