@@ -7,6 +7,13 @@ export interface PdfDocument {
   dateAdded: Date; // Date when the PDF was added
 }
 
+export interface DocQuote {
+  pdfName: string; // name of the pdf document
+  pageNumbers: Array<number>; // the pages the quote appears in
+  startIndex: number; // the starting index of the first character (always the first page)
+  quoteLength: number; // length in characters of the quote
+}
+
 export interface DocumentLibrary {
   totalSize: number; // size of every child in bytes
   name: string; // Name of the PDF file

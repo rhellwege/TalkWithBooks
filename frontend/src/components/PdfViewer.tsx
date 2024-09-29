@@ -16,6 +16,7 @@ import {
   PDFDocumentProxy,
   RenderParameters,
 } from "pdfjs-dist/types/src/display/api";
+import { DocQuote } from "../types";
 interface PdfViewerProps {
   src: string;
 }
@@ -84,6 +85,7 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
   const [pdf, setPdf] = createSignal<PDFDocumentProxy>(
     null as unknown as PDFDocumentProxy,
   );
+  const [focusedQuote, setFocusedQuote] = createSignal<DocQuote>(null as unknown as DocQuote);
   const totalPages = () => (pdf() ? pdf().numPages : 0);
 
   // every time pageNum changes, render the page and text
@@ -91,7 +93,6 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
   createEffect(async () => {
     if (pdf()) {
       await renderPage(pageNum());
-      highlightRange(textContainer, 10, 100);
     }
   });
   onMount(async () => {
