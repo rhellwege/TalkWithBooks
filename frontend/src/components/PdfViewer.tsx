@@ -26,6 +26,57 @@ const CMAP_URL = new URL("../../node_modules/pdfjs-dist/cmaps/", import.meta.url
 const CMAP_PACKED = true;
 const XFA = true;
 
+const highlightRange = (contentDiv: HTMLDivElement, startIndex: number, length: number) => {
+    // Get all the spans within the content div
+    const spans = contentDiv.querySelectorAll('span');
+    let currentIndex = 0;
+    let remainingLength = length;
+
+    // Iterate through each span
+    spans.forEach(span => {
+        const spanText = span.textContent!;
+        const spanLength = spanText.length;
+
+        // Check if the current span is within the range to highlight
+        if (currentIndex + spanLength < startIndex) {
+            // Move the current index forward
+            currentIndex += spanLength;
+            return; // Skip this span
+        }
+
+        // Calculate the start and end index for the highlight within this span
+        const highlightStart = Math.max(0, startIndex - currentIndex);
+        const highlightEnd = Math.min(spanLength, highlightStart + remainingLength);
+
+        // If the highlight range is valid
+        if (highlightStart < highlightEnd) {
+          // We can fit the highlight into this span, dont make another span.
+          if (highlightStart === 0 && highlightEnd === spanLength) {
+              span.className = 'highlight';
+            }
+            else {
+                // Create a new span for the highlighted text
+                const highlightSpan = document.createElement('span');
+                highlightSpan.className = 'highlight'; // Set the highlight class
+                highlightSpan.textContent = spanText.substring(highlightStart, highlightEnd);
+
+                // Insert the highlight span into the DOM
+                span.innerHTML = spanText.substring(0, highlightStart) + highlightSpan.outerHTML + spanText.substring(highlightEnd);
+            }
+            // Update the remaining length to highlight
+            remainingLength -= (highlightEnd - highlightStart);
+        }
+
+        // Update the current index
+        currentIndex += spanLength;
+
+        // If there's no remaining length to highlight, exit the loop
+        if (remainingLength <= 0) {
+            return false; // Break the loop
+        }
+    });
+}
+
 export const PdfViewer: Component<PdfViewerProps> = (props) => {
   let canvas!: HTMLCanvasElement, textContainer!: HTMLDivElement;
   const [localProps, otherProps] = splitProps(props, ["src"]);
@@ -37,9 +88,10 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
 
   // every time pageNum changes, render the page and text
   // TODO: make this memo
-  createEffect(() => {
+  createEffect(async () => {
     if (pdf()) {
-      renderPage(pageNum());
+      await renderPage(pageNum());
+      highlightRange(textContainer, 10, 100);
     }
   });
   onMount(async () => {
