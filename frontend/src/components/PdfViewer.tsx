@@ -93,6 +93,10 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
   createEffect(async () => {
     if (pdf()) {
       await renderPage(pageNum());
+      // does not support multi-page quotes.
+      if (pageNum() === focusedQuote().pageNumbers[0]) {
+        highlightRange(textContainer, focusedQuote().start, focusedQuote().length);
+      }
     }
   });
   onMount(async () => {
@@ -103,6 +107,8 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
       url: localProps.src,
     }).promise;
     setPdf(pdfDocument);
+    // for testing purposes:
+    setFocusedQuote({pdfUrl: localProps.src, pageNumbers: [3], start: 10, length: 100})
   });
 
   const renderPage = async (num: number) => {
@@ -148,6 +154,7 @@ export const PdfViewer: Component<PdfViewerProps> = (props) => {
           setPage={setPageNum}
           maxPages={totalPages}
         />
+        <button class="btn btn-outline" onClick={() => setPageNum(focusedQuote().pageNumbers[0])}>Jump to quote</button>
       </div>
     </Show>
   );

@@ -8,10 +8,10 @@ export interface PdfDocument {
 }
 
 export interface DocQuote {
-  pdfName: string; // name of the pdf document
-  pageNumbers: Array<number>; // the pages the quote appears in
-  startIndex: number; // the starting index of the first character (always the first page)
-  quoteLength: number; // length in characters of the quote
+  pdfUrl: string; // URL of the pdf (must be unique)
+  pageNumbers: Array<number>; // the pages the quote appears in (must be sorted)
+  start: number; // the starting index of the first character (always the first page)
+  length: number; // length in characters of the quote
 }
 
 export interface DocumentLibrary {
