@@ -115,7 +115,7 @@ export const PdfViewer: Component<
     if (pdf()) {
       await renderPage(pageNum());
       // does not support multi-page quotes.
-      if (pageNum() === focusedQuote().pageNumbers[0]) {
+      if (pageNum() === focusedQuote().pageNumber) {
         highlightRange(
           textContainer,
           focusedQuote().start,
@@ -135,7 +135,7 @@ export const PdfViewer: Component<
     // for testing purposes:
     setFocusedQuote({
       pdfUrl: localProps.src,
-      pageNumbers: [2],
+      pageNumber: 2,
       start: 10,
       length: 100,
     });
@@ -181,8 +181,8 @@ export const PdfViewer: Component<
     <Show when={pdf()} fallback={<h1>Loading...</h1>}>
       <div {...otherProps} class="">
         <div class="pdfViewer relative">
-          <canvas ref={canvas} class="shadow rounded border-primary"></canvas>
-          <div ref={textContainer} class="textLayer w-full h-full block"></div>
+          <canvas ref={canvas}></canvas>
+          <div ref={textContainer} class="textLayer"></div>
         </div>
         <Pagination
           currentPage={pageNum}
@@ -191,7 +191,7 @@ export const PdfViewer: Component<
         />
         <button
           class="btn btn-outline"
-          onClick={() => setPageNum(focusedQuote().pageNumbers[0])}
+          onClick={() => setPageNum(focusedQuote().pageNumber)}
         >
           Jump to quote
         </button>

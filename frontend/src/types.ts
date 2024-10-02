@@ -9,7 +9,7 @@ export interface PdfDocument {
 
 export interface DocQuote {
   pdfUrl: string; // URL of the pdf (must be unique)
-  pageNumbers: Array<number>; // the pages the quote appears in (must be sorted)
+  pageNumber: number; // the page the quote appears on
   start: number; // the starting index of the first character (always the first page)
   length: number; // length in characters of the quote
 }
