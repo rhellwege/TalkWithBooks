@@ -7,7 +7,7 @@ export const Chat: Component = () => {
     <>
       <h1>Talk With Books</h1>
       <p>Build your knowledge and use AI to search through it and cite it.</p>
-      <PdfViewer src="../compressed.pdf" />
+      <PdfViewer scale={1.0} src="../compressed.pdf" />
       <ChatBox />
     </>
   );
